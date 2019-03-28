@@ -388,13 +388,13 @@ FILE: layout.html
 ```html
 <!DOCTYPE HTML>
 <html>
+    <et:include view="header" />
     <body>
         <div id="main">
             <et:block name="main" />
         </div>
     </body>
 </html>
-
 ```
 
 FILE: index.html
