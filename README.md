@@ -9,12 +9,52 @@ etview是一个简单易用、轻量化的MVC框架。它通过自定义标签�
 
 ## 内容介绍
 
+* nginx配置(示例)
 * 使用框架
 * 配置
 * 创建入口
 * 控制器
 * 展示数据
 * 布局
+
+## nginx配置(示例)
+
+```
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name www.etview.org; # 请自行修改server_name
+
+    root /mnt/e/test/www;
+
+    access_log /var/log/nginx/etview_access.log;
+    error_log  /var/log/nginx/etview_error.log;
+
+    location / {
+        index index.php index.html;
+        if (!-f $request_filename) {
+            rewrite (.*) /index.php?_route_=$1 last;
+            break;
+        }
+    }
+
+    location ~ \.md$ {
+        return 404;
+    }
+
+    location ~ \.php$ {
+        if ($request_filename !~* \/index\.php$) {
+            return 404;
+        }
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_index index.php;
+    }   
+}
+
+```
 
 ## 使用框架
 
